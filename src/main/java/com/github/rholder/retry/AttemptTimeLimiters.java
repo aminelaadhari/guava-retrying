@@ -87,11 +87,11 @@ public class AttemptTimeLimiters {
         private final TimeUnit timeUnit;
 
         public FixedAttemptTimeLimit(long duration, @Nonnull TimeUnit timeUnit) {
-            this(new SimpleTimeLimiter(), duration, timeUnit);
+            this(SimpleTimeLimiter.create(null), duration, timeUnit);
         }
 
         public FixedAttemptTimeLimit(long duration, @Nonnull TimeUnit timeUnit, @Nonnull ExecutorService executorService) {
-            this(new SimpleTimeLimiter(executorService), duration, timeUnit);
+            this(SimpleTimeLimiter.create(executorService), duration, timeUnit);
         }
 
         private FixedAttemptTimeLimit(@Nonnull TimeLimiter timeLimiter, long duration, @Nonnull TimeUnit timeUnit) {
@@ -104,7 +104,7 @@ public class AttemptTimeLimiters {
 
         @Override
         public V call(Callable<V> callable) throws Exception {
-            return timeLimiter.callWithTimeout(callable, duration, timeUnit, true);
+            return timeLimiter.callWithTimeout(callable, duration, timeUnit);
         }
     }
 }
